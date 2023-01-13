@@ -22,7 +22,7 @@ class CalcGUI:
         self.header.pack(padx=10, pady=20)
 
         # description
-        self.description = ctk.CTkLabel(self.root, text='Type the price of your item into the textbox then select which provice you are shopping in. Then, select how much you would like to add as a tip. When you press submit you will recieve the price of the item with tax and tip added.', font=ctk.CTkFont(size=16), width=50, wraplength=550)
+        self.description = ctk.CTkLabel(self.root, text='Type the price of your item into the textbox then select which provice you are shopping in. Next, select how much you would like to add as a tip. When you press submit you will recieve the price of the item with tax and tip added.', font=ctk.CTkFont(size=16), width=50, wraplength=550)
         self.description.pack(padx=10, pady=10)
 
         # box to input price
@@ -48,7 +48,7 @@ class CalcGUI:
         self.prov_frame.columnconfigure(2, weight=1)
         self.prov_frame.columnconfigure(3, weight=1)
 
-        # chooses a province
+        # province options
         self.prov = tk.IntVar()
 
         self.alb = ctk.CTkRadioButton(self.prov_frame, text='Alberta', font=ctk.CTkFont(size=12), variable=self.prov, value=1)
@@ -103,7 +103,7 @@ class CalcGUI:
         self.tip_frame.columnconfigure(2, weight=1)
         self.tip_frame.columnconfigure(3, weight=1)
 
-        # selects a tip amount
+        # tip amounts
         self.tip = tk.IntVar()
 
         self.t_no_tip = ctk.CTkRadioButton(self.tip_frame, text='No Tip', font=ctk.CTkFont(size=12), variable=self.tip, value=1)
@@ -136,6 +136,7 @@ class CalcGUI:
 
         self.root.mainloop()
 
+    # function to calculate final price
     def get_price(self):
         tax_amount = self.get_tax_amount()
         tip_amount = self.get_tip_amount()
@@ -155,6 +156,7 @@ class CalcGUI:
             formated_value = '{:.2f}'.format(final_value)
             self.value.set('$' + str(formated_value))
 
+    # function to determine what tax amount to apply based on selected province
     def get_tax_amount(self):
         match self.prov.get():
             case 1: # Alberta
@@ -186,6 +188,7 @@ class CalcGUI:
             case other:
                 return 'no tax selected'
 
+    # function to determine which tip amount to apply
     def get_tip_amount(self):
         match self.tip.get():
             case 1: # no tip
@@ -198,6 +201,8 @@ class CalcGUI:
                 return 0.20
             case other:
                 return 'no tip selected'
+
+    # errors that appear when the user fails to provide input
 
     def no_num(self):
         tk.messagebox.showerror('Error', 'Please enter a number.')
